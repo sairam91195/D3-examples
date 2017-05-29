@@ -1,0 +1,116 @@
+<!doctype html>
+
+<style>
+
+.axis line {
+  fill: none;
+  stroke: #aaa;
+  shape-rendering: crispEdges;
+  vector-effect: non-scaling-stroke;
+}
+</style>
+
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+<script>
+
+		var margin = {top: -5, right: -5, bottom: -5, left: -5},
+    width = 1000,
+    height = 1000;
+
+var zoom = d3.behavior.zoom()
+    .scaleExtent([1, 10])
+    .on("zoom", zoomed);
+
+var slider = d3.select("body").append("p").append("input")
+  .datum({})
+  .attr("type", "range")
+  .attr("value", zoom.scaleExtent()[0])
+  .attr("min", zoom.scaleExtent()[0])
+  .attr("max", zoom.scaleExtent()[1])
+  .attr("step", (zoom.scaleExtent()[1] - zoom.scaleExtent()[0]) / 100)
+  .on("input", slided);
+  
+  
+ var svg = d3.select("body").append("svg")
+    .attr("width", 100)
+    .attr("height", 100)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.right + ")")
+    .call(zoom);
+	
+//	var container = svg.append("g");
+	
+
+	
+
+function slided(d){
+  zoom.scale(d3.select(this).property("value"))
+    .event(svg);
+}
+
+	d3.json("http://127.0.0.1:8887/data1.json",function (data) {
+		
+var r=300; // radius
+
+var color = d3.scale.ordinal()
+				.range(["green","orange","red","grey","blue","skyblue","pink","brown","lightgreen","purple"]);
+
+
+var visualization = d3.select("body")               // definition of visualization variable
+						.append("svg")
+						.attr("width",1000)
+						.attr("height",1000);
+						
+						
+			var group = visualization.append("g")
+						.attr("transform", "translate(600, 400)");
+						
+		var arc = d3.svg.arc()
+					.innerRadius(0)
+					.outerRadius(r);
+					
+		var pie = d3.layout.pie()
+					.value(function (d) { return d.Ticket_Age; }
+);
+					
+		var arcs = group.selectAll(".arc")
+						.data(pie(data))
+						.enter()
+						.append("g")
+						.attr("class","arc");
+						
+						
+						
+		arcs.append("path")
+			.attr("d", arc)
+			.attr("fill", function (d) { return color(d.data.Ticket_Age); });
+			
+			
+			arcs.append("text")
+				.attr("transform", function (d) {return "translate("+ arc.centroid(d)+")";})
+				.attr("text-anchor", "middle")
+				.attr("font-size", "1.5em")
+				.text(function (d) { return d.data.Ticket_Age; });
+				
+				
+				arcs.on("mouseover", function(){d3.select(this).style("fill", "white") ,visualization.selectAll("text")
+  ;})
+
+        .on("mouseout", function(){d3.select(this).style("fill", "black");});
+				
+
+			})
+			
+			var container = visualization.append("g");
+	function zoomed() {
+
+	group.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+  slider.property("value",  d3.event.scale);
+
+	}
+					
+			
+				
+</script>
