@@ -1,17 +1,9 @@
 <!doctype html>
 
-<style>
 
-.axis line {
-  fill: none;
-  stroke: #aaa;
-  shape-rendering: crispEdges;
-  vector-effect: non-scaling-stroke;
-}
-</style>
 
 <body>
-<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
 
 <script>
 
@@ -20,7 +12,7 @@
     height = 1000;
 
 var zoom = d3.behavior.zoom()
-    .scaleExtent([1, 10])
+    .scaleExtent([1, 3])
     .on("zoom", zoomed);
 
 var slider = d3.select("body").append("p").append("input")
@@ -34,13 +26,13 @@ var slider = d3.select("body").append("p").append("input")
   
   
  var svg = d3.select("body").append("svg")
-    .attr("width", 100)
-    .attr("height", 100)
+    .attr("width", 2000)
+    .attr("height", 1000)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.right + ")")
     .call(zoom);
 	
-//	var container = svg.append("g");
+	var container = svg.append("g");
 	
 
 	
@@ -50,22 +42,20 @@ function slided(d){
     .event(svg);
 }
 
-	d3.json("https://hemanthsai10.github.io/D3-examples/slider_pie_chart/data1.json",function (data) {
+	d3.json("http://hemanthsai10.github.io/D3-examples/slider_pie_chart/data1.json",function (data) {
 		
-var r=300; // radius
+var r=100; // radius
 
 var color = d3.scale.ordinal()
 				.range(["green","orange","red","grey","blue","skyblue","pink","brown","lightgreen","purple"]);
 
 
-var visualization = d3.select("body")               // definition of visualization variable
-						.append("svg")
-						.attr("width",1000)
-						.attr("height",1000);
+
+
 						
 						
-			var group = visualization.append("g")
-						.attr("transform", "translate(600, 400)");
+			var group = container.append("g")
+						.attr("transform", "translate(200, 200)");
 						
 		var arc = d3.svg.arc()
 					.innerRadius(0)
@@ -103,10 +93,10 @@ var visualization = d3.select("body")               // definition of visualizati
 
 			})
 			
-			var container = visualization.append("g");
+		//	var container = svg.append("g");
 	function zoomed() {
 
-	group.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
   slider.property("value",  d3.event.scale);
 
 	}
@@ -114,3 +104,4 @@ var visualization = d3.select("body")               // definition of visualizati
 			
 				
 </script>
+<body>
