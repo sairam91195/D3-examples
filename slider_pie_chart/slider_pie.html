@@ -3,7 +3,7 @@
 
 
 <body>
-<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="https://d3js.org/d3.v3.min.js"></script>
 
 <script>
 
@@ -42,7 +42,7 @@ function slided(d){
     .event(svg);
 }
 
-	d3.json("http://hemanthsai10.github.io/D3-examples/slider_pie_chart/data1.json",function (data) {
+	d3.json("https://hemanthsai10.github.io/D3-examples/slider_pie_chart/data1.json",function (data) {
 		
 var r=100; // radius
 
@@ -85,7 +85,7 @@ var color = d3.scale.ordinal()
 				.text(function (d) { return d.data.Ticket_Age; });
 				
 				
-				arcs.on("mouseover", function(){d3.select(this).style("fill", "white") ,visualization.selectAll("text")
+				arcs.on("mouseover", function(){d3.select(this).style("fill", "white").selectAll("text")
   ;})
 
         .on("mouseout", function(){d3.select(this).style("fill", "black");});
